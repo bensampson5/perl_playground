@@ -15,8 +15,12 @@ my $length = @words_after_the;
 print ("Found $length matches for words after 'the'.\n");
 print ("First ten matches are '@words_after_the[0 .. 10]'.\n");
 
-my %words_after_the_freq_count = Subroutines::frequency_count(\@words_after_the);
+my %freq_count = Subroutines::frequency_count(\@words_after_the);
 
-while (my ($key, $value) = each %words_after_the_freq_count) {
-    print "$key = $value\n";
+my @keys = reverse sort { $freq_count{$a} <=> $freq_count{$b} } keys(%freq_count);
+my @vals = @freq_count{@keys};
+
+print ("Top ten matches are:\n");
+for my $i ( 0..10 ) {
+    print "$keys[$i] = $vals[$i]\n";
 }
